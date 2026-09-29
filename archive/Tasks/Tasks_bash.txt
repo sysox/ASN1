@@ -1,0 +1,49 @@
+Task 1 RSA key-pair generation
+- Execute commands
+	openssl genpkey -algorithm RSA  -outform PEM -pkeyopt rsa_keygen_bits:2048 -pkeyopt rsa_keygen_pubexp:3 -out RSA_2048_priv.pem
+	openssl pkey -inform PEM -outform DER -in RSA_2048_priv.pem -out RSA_2048_priv.der
+
+	openssl pkey -pubout -inform PEM -outform PEM -in RSA_2048_priv.pem -out RSA_2048_pub.pem
+	openssl pkey -pubin -pubout -inform PEM  -outform DER -in RSA_2048_pub.pem -out RSA_2048_pub.der
+- check the content of RSA_2048_pub.pem,  RSA_2048_pub.der, RSA_2048_priv.pem
+
+Task 2 EC key-pair generation
+- Execute commands
+	openssl genpkey -algorithm EC -outform PEM -pkeyopt ec_paramgen_curve:P-256 -pkeyopt ec_param_enc:named_curve -out EC_256_priv.pem
+	openssl pkey -inform PEM -outform DER -in EC_256_priv.pem -out EC_256_priv.der
+	
+	openssl pkey -pubout -inform PEM -outform PEM -in EC_256_priv.pem -out EC_256_pub.pem
+	openssl pkey -pubin -pubout -inform PEM -outform DER -in EC_256_pub.pem -out EC_256_pub.der
+- check the content of EC_256_pub.pem, EC_256_pub.der, EC_256_priv.pem
+
+	
+Task 3 Key details 
+- Execute commands
+	openssl pkey -inform PEM -text -in RSA_2048_priv.pem
+	openssl pkey -pubin -inform PEM -text -in RSA_2048_pub.pem
+	openssl pkey -pubin -inform DER -text -in RSA_2048_pub.der
+	openssl pkey -inform PEM -text -in EC_256_priv.pem
+	openssl pkey -pubin -inform PEM -text -in EC_256_pub.pem
+- open ASN.1 Editor and compare that values are the same  
+
+Task 4 DER parsing
+- Execute  
+	openssl asn1parse -inform DER -in RSA_2048_pub.der
+- Replace ?? by appropriate offset to see modulus and exponent
+	openssl asn1parse -inform DER -in RSA_2048_pub.der -strparse ??
+
+
+Task 5 RSA encrypt 
+- Execute commands
+	openssl pkeyutl -encrypt -pubin -inkey RSA_2048_pub.pem -in PT.txt -out RSA_CT.der
+
+
+Task 6 ECDSA signature
+- Execute commands
+	openssl pkeyutl -sign -in PT.txt -inkey EC_256_priv.pem -out PT_hash_signature.der
+	openssl pkeyutl -verify -pubin -in PT.txt -sigfile PT_hash_signature.der -inkey EC_256_pub.pem		
+
+	
+Task 7 
+- Execute commands
+	openssl rand  -out rnd.bin 10
