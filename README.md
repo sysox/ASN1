@@ -27,6 +27,8 @@ Work through them in order.
 5. `05_rsa_from_scratch.ipynb` – square-and-multiply; RSA encryption/decryption and CRT with the key from 02, cross-checked with OpenSSL
 6. `06_ec_from_scratch.ipynb` – point addition and double-and-add on P-256; public key, ECDH and ECDSA with the key from 02, cross-checked with OpenSSL
 
+Solutions are in `solutions/` (`*_solution.ipynb`, run with outputs; `RSA_pub.asn` is the completed grammar).
+
 ## Working on aisa
 
 Run the OpenSSL commands from notebook 02 on `aisa.fi.muni.cz` (without the leading `!`),
